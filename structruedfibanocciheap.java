@@ -193,3 +193,10 @@ public class FibonacciHeap {
         System.out.println("New key node: " + node.key);
     }
 }
+
+
+OUTPUT:
+Minimum element of fibonacci heap: 3
+Deletion of minimum element: 3
+New key is greater than current key
+New key node: 5
