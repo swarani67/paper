@@ -1,4 +1,6 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
 class FibonacciHeapNode {
     int key;
     int deg;
@@ -11,7 +13,7 @@ class FibonacciHeapNode {
 class FibonacciHeap {
     private FibonacciHeapNode min;
     private int n;
-    private int maxDegree; 
+    private int maxDegree;
     private List<Integer> keys;
     public FibonacciHeap(int maxDegree) {
         this.maxDegree = maxDegree;
@@ -39,6 +41,7 @@ class FibonacciHeap {
         }
         keys.add(key);
         n++;
+        consolidate();
     }
     public void union(FibonacciHeap other) {
         if (other == null) return;
@@ -50,8 +53,9 @@ class FibonacciHeap {
         temp.prev = other.min;
         if (other.min.key < min.key)
             min = other.min;
-        n = n + other.n;
+        n += other.n;
         keys.addAll(other.keys);
+        consolidate();
     }
     public int extractMin() {
         FibonacciHeapNode z = min;
@@ -122,12 +126,12 @@ class FibonacciHeap {
                     min = y;
                     min.next = min;
                     min.prev = min;
-                }
-                else {
+                } else {
                     y.prev = min;
                     y.next = min.next;
                     min.next.prev = y;
                     min.next = y;
+
                     if (y.key < min.key)
                         min = y;
                 }
@@ -142,25 +146,22 @@ public class Main {
     public static void main(String[] args) {
         int maxDegree = 2;
         FibonacciHeap fibonacciHeap = new FibonacciHeap(maxDegree);
-        fibonacciHeap.insert(40);
-        fibonacciHeap.insert(99);
+        fibonacciHeap.insert(5);
         fibonacciHeap.insert(10);
-        fibonacciHeap.insert(23);
+        fibonacciHeap.insert(3);
+        fibonacciHeap.insert(7);
         System.out.println("Inserted elements: " + fibonacciHeap.getKeys());
         FibonacciHeap fibonacciHeap2 = new FibonacciHeap(maxDegree);
-        fibonacciHeap2.insert(34);
-        fibonacciHeap2.insert(23);
-        fibonacciHeap2.insert(54);
-        fibonacciHeap2.insert(20);
+        fibonacciHeap2.insert(8);
+        fibonacciHeap2.insert(6);
         fibonacciHeap.union(fibonacciHeap2);
-        System.out.println("After Union:" + fibonacciHeap.getKeys());
-        System.out.println("Minimum element in heap:" + fibonacciHeap.extractMin());
+        System.out.println("Elements after union: " + fibonacciHeap.getKeys());
+        System.out.println("Minimum elements in heap: " + fibonacciHeap.extractMin());
     }
 }
 
 
-
 OUTPUT:
-Inserted elements: [40, 99, 10, 23]
-After Union:[40, 99, 10, 23, 34, 23, 54, 20]
-Minimum element in heap:10
+Inserted elements: [5, 10, 3, 7]
+Elements after union: [5, 10, 3, 7, 8, 6]
+Minimum elements in heap: 3
